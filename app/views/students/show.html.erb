@@ -1,0 +1,7 @@
+<h1> <%= @student.name %> </h1><br>
+<h2>Major: <%= @student.major %><br>
+Age: <%= @student.age %><br>
+Instructor: <%= link_to @student.instructor.name, 
+instructor_path(@student.instructor) %></h2>
+
+<%= button_to('Delete Student', student_url(@student), method: "delete") %>
