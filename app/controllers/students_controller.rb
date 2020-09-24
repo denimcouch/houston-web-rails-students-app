@@ -1,24 +1,50 @@
 class StudentsController < ApplicationController
     
     def index
+        @students = Student.all
     end
 
     def show
+        @student = Student.find(params[:id])
     end
 
     def new
+        @student = Student.new
+        @instructors = Instructor.all
     end
 
     def create
+        @student = Student.new(student_params)
+        if !@student.valid?
+            flash[:errors] = @student.errors.full_messages 
+            redirect_to new_student_path
+        else
+            @student.save
+            redirect_to student_path(@student)
+        end
     end
 
     def edit
+        @student = Student.find(params[:id])
+        @instructors = Instructor.all
     end
-
+    
     def update
+        @student = Student.find(params[:id])
+        @student.update(student_params)
+        if !@student.valid?
+            flash[:errors] = @student.errors.full_messages 
+            redirect_to edit_student_path(@student)
+        else
+            @student.save
+            redirect_to student_path(@student)
+        end
     end
 
-    def delete
+    def destroy
+        @student = Student.find(params[:id])
+        @student.destroy
+        redirect_to students_path
     end
 
     private
